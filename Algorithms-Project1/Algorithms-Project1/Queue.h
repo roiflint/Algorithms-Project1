@@ -7,7 +7,7 @@ private:
 	Node* head, * tail;
 
 public:
-	Queue(int item);
+	Queue();
 	~Queue();
 	void MakeEmpty();
 	int IsEmpty();

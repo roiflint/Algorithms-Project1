@@ -19,4 +19,7 @@ public:
 	int AddEdge(int i, int j);
 	NeighborList* Adj(int i);
 	Graph* Transpose();
+	int* BFS(int s);
+	int getN();
+	void deleteEdgesFromBFS(int* bfs);
 };

@@ -1,9 +1,9 @@
 #include "Queue.h"
 
-Queue::Queue(int item)
+Queue::Queue()
 {
-	head = new Node(value);
-	tail = head;
+	head = nullptr;
+	tail = nullptr;
 }
 
 Queue::~Queue()
@@ -17,7 +17,7 @@ void Queue::MakeEmpty()
 	while (current != this->tail)
 	{
 		Node* temp = current;
-		current = temp->next;
+		current = temp->getNext();
 		delete temp;
 	}
 	delete current;
@@ -35,7 +35,7 @@ int Queue::Front(void)
 		//Handle Error
 	}
 
-	return (head->next->data);
+	return (head->getNext()->getValue());
 }
 
 void Queue::EnQueue(int item)
@@ -48,14 +48,14 @@ void Queue::EnQueue(int item)
 
 int Queue::DeQueue()
 {
-	if (isEmpty())
+	if (IsEmpty())
 	{
 		// Handle Error
 	}
 
 	Node* temp = this->head;
-	int item = temp->data;
-	this->head = temp->next;
+	int item = temp->getValue();
+	this->head = temp->getNext();
 	if (tail == temp)
 	{
 		tail = head;

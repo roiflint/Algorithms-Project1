@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "NeighborList.h"
 #include "Node.h"
+#include "Queue.h"
 #include <iostream>
 using namespace std;
 
@@ -13,6 +14,8 @@ Graph::~Graph() {
 	}
 	delete[] this->graph;
 }
+
+int Graph::getN() { return this->n; }
 
 void Graph::MakeEmptyGraph(int n) {
 	*this->graph = new NeighborList[n+1];
@@ -92,5 +95,48 @@ void Graph::PrintGraph() {
 	}
 }
 
+int* Graph::BFS(int s) {
+	int* arr = new int[this->n + 1];
+	for (int i = 1; i < this->n+1; i++){
+		arr[i] = INT_MAX;
+	}
+	Queue* q = new Queue();
+	q->EnQueue(s);
+	arr[s] = 0;
+
+	while (!q->IsEmpty()) {
+		int u = q->DeQueue();
+		Node* node = this->graph[u]->getHead();
+		while (node != nullptr)
+		{
+			if (arr[node->getValue()] == INT_MAX) { //arr[v] = infinity
+				arr[node->getValue()] = arr[u] + 1; 
+				q->EnQueue(node->getValue());
+			}
+			node = node->getNext();
+		}
+	}
+	return arr;
+}
+
+void Graph::deleteEdgesFromBFS(int* bfs) {
+	for (int i = 1; i < this->n + 1; i++)
+	{
+		NeighborList* lst = this->graph[i];
+		Node* node = lst->getHead();
+		while (node != nullptr)
+		{
+			if (bfs[node->getValue()] != bfs[i] + 1)
+			{
+				Node* remove = node;
+				node = node->getNext();
+				lst->removeNeighbor(remove);
+			}
+			else {
+				node = node->getNext();
+			}
+		}
+	}
+}
 
 
