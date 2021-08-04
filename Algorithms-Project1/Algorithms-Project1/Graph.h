@@ -4,19 +4,19 @@ class Graph
 {
 private:
 	int n;
-	int* graph;
+	NeighborList** graph;
 
 public:
 	Graph();
 	~Graph();
 	void MakeEmptyGraph(int n);
 	bool IsAdjacent(int u, int v);
-	NeighborList GetAdjList(int u);
-	void AddEdge(int u, int v, int c);
+	NeighborList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
 	void ReadGraph();
 	void PrintGraph();
 	int IsEmpty();
 	int AddEdge(int i, int j);
-	NeighborList Adj(int i);
+	NeighborList* Adj(int i);
+	Graph* Transpose();
 };
