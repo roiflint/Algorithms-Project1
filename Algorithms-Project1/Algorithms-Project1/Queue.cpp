@@ -25,7 +25,7 @@ void Queue::MakeEmpty()
 
 int Queue::IsEmpty()
 {
-	return (head == tail)
+	return (head == tail);
 }
 
 int Queue::Front(void)

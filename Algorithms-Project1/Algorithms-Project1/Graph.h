@@ -13,7 +13,7 @@ public:
 	bool IsAdjacent(int u, int v);
 	NeighborList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
-	void ReadGraph();
+	/*void ReadGraph();*/
 	void PrintGraph();
 	int IsEmpty();
 	int AddEdge(int i, int j);

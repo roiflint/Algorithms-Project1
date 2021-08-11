@@ -18,7 +18,8 @@ Graph::~Graph() {
 int Graph::getN() { return this->n; }
 
 void Graph::MakeEmptyGraph(int n) {
-	*this->graph = new NeighborList[n+1];
+	this->graph = new NeighborList*[n+1];
+	this->n = n;
 	for (int i = 0; i < n+1; i++)
 	{
 		this->graph[i] = new NeighborList();
@@ -54,7 +55,7 @@ void Graph::RemoveEdge(int u, int v) {
 int Graph::IsEmpty() { return (this->n == 0) ? 1 : 0; }
 
 int Graph::AddEdge(int i, int j) {
-	if (i > this->n-1 || i < 1 || j || j > this->n-1 || j < 0)
+	if (i > this->n || i < 1 || j > this->n || j < 1)
 	{
 		return 0;
 	}
