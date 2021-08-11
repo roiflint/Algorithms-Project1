@@ -25,7 +25,12 @@ void Queue::MakeEmpty()
 
 int Queue::IsEmpty()
 {
-	return (head == tail);
+	if (head == nullptr && tail == nullptr)
+	{
+		return 1;
+	}
+	else
+		return 0;
 }
 
 int Queue::Front(void)
@@ -41,8 +46,17 @@ int Queue::Front(void)
 void Queue::EnQueue(int item)
 {
 	Node* newnode = new Node(item);
-	tail->setNext(newnode);
-	tail = newnode;
+	if (tail == nullptr)
+	{
+		tail = newnode;
+		head = newnode;
+	}
+	
+	else
+	{
+		tail->setNext(newnode);
+		tail = newnode;
+	}
 
 }
 

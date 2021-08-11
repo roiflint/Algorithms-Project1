@@ -1,2 +1,12 @@
 ﻿  Graph.cpp
+  Main.cpp
+C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Main.cpp(18,6): warning C4101: 's': unreferenced local variable
+C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Main.cpp(19,6): warning C4101: 't': unreferenced local variable
+C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Main.cpp(17,6): warning C4101: 'n': unreferenced local variable
+C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Main.cpp(133,20): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  Generating Code...
   Algorithms-Project1.vcxproj -> C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Debug\Algorithms-Project1.exe

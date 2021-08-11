@@ -79,21 +79,29 @@ Graph* Graph::Transpose() {
 		while (node != nullptr)
 		{
 			transpose->AddEdge(node->getValue(), i);
+			node = node->getNext();
 		}
 	}
 	return transpose;
+
 }
 
 void Graph::PrintGraph() {
 	for (int i = 1; i < n+1; i++)
 	{
 		Node* head = this->graph[i]->getHead();
-		while (head != nullptr)
+		if (head != nullptr)
 		{
-			cout << "(" << i << "," << head->getValue() << ") ";
-			head = head->getNext();
+			cout << i << ": ";
+			while (head != nullptr)
+			{
+				cout << "(" << i << "," << head->getValue() << ") ";
+				head = head->getNext();
+			}
+			cout << endl;
 		}
 	}
+	cout << endl;
 }
 
 int* Graph::BFS(int s) {
