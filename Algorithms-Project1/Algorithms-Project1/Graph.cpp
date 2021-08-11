@@ -3,6 +3,7 @@
 #include "Node.h"
 #include "Queue.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 Graph::Graph() { this->n = 0; this->graph = nullptr;}
@@ -102,6 +103,27 @@ void Graph::PrintGraph() {
 		}
 	}
 	cout << endl;
+}
+
+void Graph::PrintGraphIntoFile()
+{
+	ofstream myfile("Output.txt");
+
+	for (int i = 1; i < n + 1; i++)
+	{
+		Node* head = this->graph[i]->getHead();
+		if (head != nullptr)
+		{
+			myfile << i << ": ";
+			while (head != nullptr)
+			{
+				myfile << "(" << i << "," << head->getValue() << ") ";
+				head = head->getNext();
+			}
+			myfile << endl;
+		}
+	}
+
 }
 
 int* Graph::BFS(int s) {

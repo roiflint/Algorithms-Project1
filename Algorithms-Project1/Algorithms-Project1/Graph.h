@@ -15,9 +15,13 @@ public:
 	void RemoveEdge(int u, int v);
 	/*void ReadGraph();*/
 	void PrintGraph();
+	void PrintGraphIntoFile();
 	int IsEmpty();
 	int AddEdge(int i, int j);
 	NeighborList* Adj(int i);
+	NeighborList** getGraph() { return graph; }
+	void setGraph(NeighborList** graph) { this->graph = graph; }
+
 	Graph* Transpose();
 	int* BFS(int s);
 	int getN();

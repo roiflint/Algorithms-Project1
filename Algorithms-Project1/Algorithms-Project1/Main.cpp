@@ -11,6 +11,9 @@
 using namespace std;
 
 Graph* shortestPathsGraph(Graph* g, int s, int t);
+bool   checkEdgesInput(string strU, string strV, int size);
+bool   checkStartingInput(string size, string source, string destination);
+void   tellTime(Graph* g, int s, int t);
 
 int main()
 {
@@ -59,10 +62,10 @@ int main()
 		ifstream readMyFile;
 		ofstream writeMyFile;
 
-		readMyFile.open("C:\\Users\\rotan\\Desktop\\test_data1.txt");
+		readMyFile.open("C:\\Users\\rotan\\Desktop\\test_data2.txt");
 		if (!readMyFile)
 		{
-			cout << "Wrong input" << endl;
+			cout << "invalid" << endl;
 			exit(1);
 		}
 
@@ -72,20 +75,60 @@ int main()
 		int source = 0;
 		int destination = 0;
 
-		readMyFile >> sizeOfAnArray >> source >> destination;
-		g->MakeEmptyGraph(sizeOfAnArray);
+		string strSize, strSource, strDestination;
+	
+		readMyFile >> strSize >> strSource >> strDestination;
 
-		while (!readMyFile.eof())
+		if (checkStartingInput(strSize, strSource, strDestination))
 		{
-			/*Reading pair of vertices to create an edge*/
-			int v1 = 0, v2 = 0;
-			readMyFile >> v1 >> v2;
-			g->AddEdge(v1, v2);
+			sizeOfAnArray = stoi(strSize);
+			source = stoi(strSource);
+			destination = stoi(strDestination);
+
+
+			g->MakeEmptyGraph(sizeOfAnArray);
+
+			while (!readMyFile.eof() && isValid)
+			{
+				/*Reading pair of vertices to create an edge*/
+				string strU, strV;
+				readMyFile >> strV >> strU;
+
+				if (checkEdgesInput(strV, strU, sizeOfAnArray))
+				{
+					int v = stoi(strV);
+					int u = stoi(strU);
+					g->AddEdge(v, u);
+				}
+				else
+				{
+					isValid = false;
+				}
+			}
+
+			if (isValid)
+			{
+				Graph* timeComplex = g;
+				/*timeComplex->setGraph(g->getGraph());*/
+
+				Graph* H = shortestPathsGraph(g, source, destination);
+				H->PrintGraph();
+				H->PrintGraphIntoFile();
+				
+				tellTime(timeComplex, source, destination);
+			}
+			else
+			{
+				cout << "invalid input" << endl;
+			}
 		}
-		Graph* H = shortestPathsGraph(g, source, destination);
-		H->PrintGraph();
+		else
+		{
+			cout << "invalid input" << endl;
+		}
+	
 	}
-	catch(exception)
+	catch(exception&)
 	{
 		cout << "invalid input" << endl;
 		exit(1);
@@ -122,8 +165,56 @@ Graph* shortestPathsGraph(Graph* g, int s, int t) {
 
 }
 
+
+bool checkEdgesInput(string strV1, string strV2, int size)
+{
+	try
+	{
+		int v1 = stoi(strV1);
+		int v2 = stoi(strV2);
+
+		if (v1 > size || v1 < 0 || v2 < 0 || v2 > size)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	catch (exception&)
+	{
+		return false;
+	}
+}
+
+bool checkStartingInput(string strSize, string strSourse, string strDestination)
+{
+	try {
+		int size = stoi(strSize);
+		int source = stoi(strSourse);
+		int destination = stoi(strDestination);
+
+		if (size < 0 || size % 2 != 0 || source > size || source < 0 || destination > size || destination < 0)		
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+
+	}
+	/*If stoi fails, we'll catch the exception*/
+	catch (exception&)
+	{
+		return false;
+	}
+}
+
 void tellTime(Graph* g, int s, int t)
 {
+
 	auto start = chrono::high_resolution_clock::now();
 	// unsync the I/O of C and C++.
 	ios_base::sync_with_stdio(false);
@@ -139,5 +230,3 @@ void tellTime(Graph* g, int s, int t)
 	myfile << " sec" << endl;
 	myfile.close();
 }
-
-
