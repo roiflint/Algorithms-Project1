@@ -212,11 +212,6 @@ void Graph::tellTime(int s, int t)
 	double time_taken =
 		chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 	time_taken *= 1e-9;
-	ofstream myfile("Measure.txt", ios_base::app); // The name of the file
-	myfile << "Time taken by function <shortestPathsGraph> is : " << fixed
-		<< time_taken << setprecision(9);
-	myfile << " sec" << endl;
-	myfile.close();
 
 	cout << "Time taken by function <shortestPathsGraph> is : " << fixed
 		<< time_taken << setprecision(9);
@@ -283,7 +278,6 @@ void Graph::ReadGraph()
 	int i = 0, j = 0;
 	bool isValid = true;
 
-	Graph* g = new Graph();
 	cout << "Please enter the path of the file: ";
 	cin >> fileName;
 	cout << endl;
@@ -299,26 +293,26 @@ void Graph::ReadGraph()
 
 		readMyFile >> strSize >> strSource >> strDestination;
 
-		if (g->checkInput(strSize, strSource, strDestination))
+		if (this->checkInput(strSize, strSource, strDestination))
 		{
 			n = stoi(strSize);
 			s = stoi(strSource);
 			t = stoi(strDestination);
 
-			g->MakeEmptyGraph(n);
-			g->setS(s);
-			g->setT(t);
+			this->MakeEmptyGraph(n);
+			this->setS(s);
+			this->setT(t);
 
 			while (!readMyFile.eof() && isValid)
 			{
 				/*Reading pair of vertices to create an edge*/
 				readMyFile >> strI >> strJ;
 
-				if (g->checkEdges(strI, strJ, n))
+				if (this->checkEdges(strI, strJ, n))
 				{
 					int i = stoi(strI);
 					int j = stoi(strJ);
-					g->AddEdge(i, j);
+					this->AddEdge(i, j);
 				}
 				else
 				{

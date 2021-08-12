@@ -20,71 +20,78 @@ int main()
 	Graph* g = new Graph();
 	try
 	{
-
-		/***************STDIN INPUT***************/
-
-		/*cout << "Please enter the number of vertices: " << endl;*/
-		cin >> n;
-
-		/*cout << "Please enter the the starting vertex: " << endl;*/
-		cin >> s;
-
-		/*cout << "Please enter the destination vertex: " << endl;*/
-		cin >> t;
-
-		g->MakeEmptyGraph(n);
-		g->setS(s);
-		g->setT(t);
-		/*cout << "Start entering the edges until you enter -1" << endl;*/
-
-		if (checkStartingInputs(n, s, t))
+		cout << "To insert graph through keyboard press 1, to insert graph through file press 2" << endl;
+		int option;
+		cin >> option;
+		if (option != 1)
 		{
+			g->ReadGraph();
+		}
+		else {
+			///***************STDIN INPUT***************/
 
-			while (!cin.eof())
+			cout << "Please enter the number of vertices: " << endl;
+			cin >> n;
+
+			cout << "Please enter the the starting vertex: " << endl;
+			cin >> s;
+
+			cout << "Please enter the destination vertex: " << endl;
+			cin >> t;
+
+			g->MakeEmptyGraph(n);
+			g->setS(s);
+			g->setT(t);
+			/*cout << "Start entering the edges until you enter -1" << endl;*/
+
+			if (checkStartingInputs(n, s, t))
 			{
-				cin >> i;
-				if (i == EOF)
-				{
-					break;
-				}
 
-				cin >> j;
-				if (j == EOF)
+				while (!cin.eof())
 				{
-					break;
-				}
+					cin >> i;
+					if (i == EOF)
+					{
+						break;
+					}
 
-				if (checkInput(i, j, n))
-				{
-					g->AddEdge(i, j);
-				}
-				else
-				{
-					cout << "invalid input" << endl;
-					exit(1);
+					cin >> j;
+					if (j == EOF)
+					{
+						break;
+					}
+
+					if (checkInput(i, j, n))
+					{
+						g->AddEdge(i, j);
+					}
+					else
+					{
+						cout << "invalid input" << endl;
+						exit(1);
+					}
 				}
 			}
-
+			else
+			{
+				cout << "invalid input" << endl;
+				exit(1);
+			}
+		}
 			Graph* timeTaken = g;
-			Graph* h = g->shortestPathsGraph(s, t);
+			Graph* h = g->shortestPathsGraph(g->getS(), g->getT());
 			h->PrintGraph();
 			/*h->PrintGraphIntoFile();*/
-			timeTaken->tellTime(s, t);
+			timeTaken->tellTime(g->getS(), g->getT());
 		}
-		else
+		catch (exception&)
 		{
 			cout << "invalid input" << endl;
 			exit(1);
 		}
-	
-	}
-	catch(exception&)
-	{
-		cout << "invalid input" << endl;
-		exit(1);
-	}
 
 }
+
 
 bool checkInput(int v1, int v2, int size)
 {

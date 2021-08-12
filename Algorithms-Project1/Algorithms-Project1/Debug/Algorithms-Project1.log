@@ -1,9 +1,2 @@
-﻿  Graph.cpp
-C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(212,20): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
-          with
-          [
-              _Rep=__int64
-          ]
-  Main.cpp
-  Generating Code...
+﻿  Main.cpp
   Algorithms-Project1.vcxproj -> C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Debug\Algorithms-Project1.exe

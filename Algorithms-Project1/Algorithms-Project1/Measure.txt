@@ -3,3 +3,5 @@
 774: (774,208) 
 
 Time taken by function <shortestPathsGraph> is : 0.009323 sec
+Time taken by function <shortestPathsGraph> is : 0.000039 sec
+Time taken by function <shortestPathsGraph> is : 0.008712 sec
