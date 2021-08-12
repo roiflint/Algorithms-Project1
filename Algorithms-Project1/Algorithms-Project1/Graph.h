@@ -2,7 +2,7 @@
 #include "NeighborList.h"
 #include "Node.h"
 #include "Queue.h"
-
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <chrono>

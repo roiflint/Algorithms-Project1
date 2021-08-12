@@ -1,7 +1,7 @@
 #include "Graph.h"
 #include "NeighborList.h"
 #include "Node.h"
-
+#include <string>
 
 using namespace std;
 
