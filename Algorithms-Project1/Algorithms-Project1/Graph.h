@@ -7,8 +7,9 @@
 #include <fstream>
 #include <chrono>
 #include <iomanip>
+#include <climits>
 
-#define INFINITE INT_MAX
+//#define INFINITE INT_MAX
 using namespace std;
 
 class Graph

@@ -2,13 +2,13 @@
 #include "NeighborList.h"
 #include "Node.h"
 
-#include <stdlib.h>
-#include <fstream>
 
 using namespace std;
 
-bool  checkEdgesInput(string strJ, string strI, int size);
-bool  checkStartingInput(string size, string s, string t);
+bool checkEdgesInput(string strJ, string strI, int size);
+bool checkStartingInput(string size, string s, string t);
+bool checkInput(int v1, int v2, int size);
+bool checkStartingInputs(int size, int s, int t);
 
 int main()
 {
@@ -26,38 +26,63 @@ int main()
 	Graph* g = new Graph();
 	try
 	{
-		/*cout << "Please enter the number of vertices: " << endl;
-		cin >> n;
 
-		cout << "Please enter the the starting vertex: " << endl;
-		cin >> s;
+		/***************STDIN INPUT***************/
 
-		cout << "Please enter the destination vertex: " << endl;
-		cin >> t;
+		///*cout << "Please enter the number of vertices: " << endl;*/
+		//cin >> n;
 
-		g->MakeEmptyGraph(n);
+		///*cout << "Please enter the the starting vertex: " << endl;*/
+		//cin >> s;
 
-		cout << "Start entering the edges until you press enter" << endl;
+		///*cout << "Please enter the destination vertex: " << endl;*/
+		//cin >> t;
 
+		//g->MakeEmptyGraph(n);
 
-		while (isValid)
-		{
-			cin >> i;
-			cin >> j;
-			if (i == -1 || j == -1)
-			{
-				isValid = false;
-			}
+		///*cout << "Start entering the edges until you enter -1" << endl;*/
 
-			else
-			{
-				check = g->AddEdge(i, j);
-			}
-		}
+		//if (checkStartingInputs(n, s, t))
+		//{
 
-		Graph* h = g->shortestPathsGraph(s, t);
-		h->PrintGraph();
-		h->PrintGraphIntoFile();*/
+		//	while (!cin.eof())
+		//	{
+		//		cin >> i;
+		//		if (i == EOF)
+		//		{
+		//			break;
+		//		}
+
+		//		cin >> j;
+		//		if (j == EOF)
+		//		{
+		//			break;
+		//		}
+
+		//		if (checkInput(i, j, n))
+		//		{
+		//			g->AddEdge(i, j);
+		//		}
+		//		else
+		//		{
+		//			cout << "invalid input" << endl;
+		//			exit(1);
+		//		}
+		//	}
+
+		//	Graph* timeTaken = g;
+		//	Graph* h = g->shortestPathsGraph(s, t);
+		//	h->PrintGraph();
+		//	/*h->PrintGraphIntoFile();*/
+		//	timeTaken->tellTime(s, t);
+		//}
+		//else
+		//{
+		//	cout << "invalid input" << endl;
+		//	exit(1);
+		//}
+
+		/*****************INPUT FROM FILE***********************/
 
 		cout << "Please enter the path of the file: ";
 		cin >> fileName;
@@ -149,6 +174,30 @@ bool checkEdgesInput(string strV1, string strV2, int size)
 	catch (exception&)
 	{
 		return false;
+	}
+}
+
+bool checkInput(int v1, int v2, int size)
+{
+	if (v1 > size || v1 < 0 || v2 < 0 || v2 > size)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool checkStartingInputs(int size, int s, int t)
+{
+	if (size < 0 || size % 2 != 0 || s > size || s < 0 || t > size || t < 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 

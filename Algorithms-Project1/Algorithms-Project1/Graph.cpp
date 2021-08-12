@@ -126,7 +126,7 @@ void Graph::PrintGraphIntoFile()
 int* Graph::BFS(int s) {
 	int* arr = new int[this->n + 1];
 	for (int i = 1; i < this->n+1; i++){
-		arr[i] = INFINITE;
+		arr[i] = INT_MAX;
 	}
 	Queue* q = new Queue();
 	q->EnQueue(s);
@@ -137,7 +137,7 @@ int* Graph::BFS(int s) {
 		Node* node = this->adjList[u]->getHead();
 		while (node != nullptr)
 		{
-			if (arr[node->getValue()] == INFINITE) { //arr[v] = infinity
+			if (arr[node->getValue()] == INT_MAX) { //arr[v] = infinity
 				arr[node->getValue()] = arr[u] + 1; 
 				q->EnQueue(node->getValue());
 			}
@@ -180,7 +180,7 @@ Graph* Graph::shortestPathsGraph(int s, int t) {
 		Node* node = lst->getHead();
 		while (node != nullptr)
 		{
-			if (GSTBFS[i] == INFINITE)
+			if (GSTBFS[i] == INT_MAX)
 			{
 				Node* remove = node;
 				node = node->getNext();
@@ -212,6 +212,10 @@ void Graph::tellTime(int s, int t)
 		<< time_taken << setprecision(9);
 	myfile << " sec" << endl;
 	myfile.close();
+
+	cout << "Time taken by function <shortestPathsGraph> is : " << fixed
+		<< time_taken << setprecision(9);
+	cout << " sec" << endl;
 }
 
 
