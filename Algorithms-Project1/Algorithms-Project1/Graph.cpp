@@ -10,6 +10,11 @@ Graph::~Graph() {
 	delete[] this->adjList;
 }
 
+void Graph::setS(int s) { this->s = s; }
+void Graph::setT(int t) { this->t = t; }
+int Graph::getS() { return this->s; }
+int Graph::getT() { return this->t; }
+
 int Graph::getN() { return this->n; }
 
 int Graph::IsEmpty() { return (this->n == 0) ? 1 : 0; }
@@ -216,6 +221,121 @@ void Graph::tellTime(int s, int t)
 	cout << "Time taken by function <shortestPathsGraph> is : " << fixed
 		<< time_taken << setprecision(9);
 	cout << " sec" << endl;
+}
+
+bool Graph::checkInput(string strSize, string strSourse, string strDestination)
+{
+	try
+	{
+		int size = stoi(strSize);
+		int s = stoi(strSourse);
+		int t = stoi(strDestination);
+
+		if (size < 0 || size % 2 != 0 || s > size || s < 0 || t > size || t < 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+
+	}
+	/*If stoi fails, we'll catch the exception*/
+	catch (exception&)
+	{
+		return false;
+	}
+}
+
+bool Graph::checkEdges(string strV1, string strV2, int size)
+{
+	try
+	{
+		int v1 = stoi(strV1);
+		int v2 = stoi(strV2);
+
+		if (v1 > size || v1 < 0 || v2 < 0 || v2 > size)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	/*If stoi fails, we'll catch the exception*/
+	catch (exception&)
+	{
+		return false;
+	}
+}
+
+void Graph::ReadGraph()
+{
+	ifstream readMyFile; // text file to read from
+	string fileName;
+
+	int n, s, t;
+	string strSize, strSource, strDestination;
+
+	string strI, strJ;	 // edges of the graph
+	int i = 0, j = 0;
+	bool isValid = true;
+
+	Graph* g = new Graph();
+	cout << "Please enter the path of the file: ";
+	cin >> fileName;
+	cout << endl;
+	try {
+		readMyFile.open(fileName);
+		if (!readMyFile)
+		{
+			cout << "ERROR with opening the file" << endl;
+			exit(1);
+		}
+
+		/*Read first 3 items from the file */
+
+		readMyFile >> strSize >> strSource >> strDestination;
+
+		if (g->checkInput(strSize, strSource, strDestination))
+		{
+			n = stoi(strSize);
+			s = stoi(strSource);
+			t = stoi(strDestination);
+
+			g->MakeEmptyGraph(n);
+			g->setS(s);
+			g->setT(t);
+
+			while (!readMyFile.eof() && isValid)
+			{
+				/*Reading pair of vertices to create an edge*/
+				readMyFile >> strI >> strJ;
+
+				if (g->checkEdges(strI, strJ, n))
+				{
+					int i = stoi(strI);
+					int j = stoi(strJ);
+					g->AddEdge(i, j);
+				}
+				else
+				{
+					isValid = false;
+				}
+			}
+		}
+		else
+		{
+			cout << "invalid input" << endl;
+		}
+	}
+	catch (exception&)
+	{
+		cout << "invalid input" << endl;
+		exit(1);
+	}
 }
 
 

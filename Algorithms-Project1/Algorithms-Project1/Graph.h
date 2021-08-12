@@ -17,6 +17,8 @@ class Graph
 private:
 	int n;					// Number of vertices in the graph
 	NeighborList** adjList;   // List of neighbors in the graph
+	int s;
+	int t;
 
 public:
 
@@ -47,7 +49,7 @@ public:
 	/*Removes edge (u,v) from the graph*/
 	void RemoveEdge(int u, int v);
 
-	/*void ReadGraph();*/
+	void ReadGraph();
 
 	/*Print the graph into the console*/
 	void PrintGraph();
@@ -71,5 +73,12 @@ public:
 
 	void tellTime(int s, int t);
 
+	void setS(int s);
+	void setT(int t);
+	int getT();
+	int getS();
 
+	bool checkInput(string strSize, string strSourse, string strDestination);
+
+	bool checkEdges(string strV1, string strV2, int size);
 };

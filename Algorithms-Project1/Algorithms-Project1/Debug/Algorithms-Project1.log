@@ -1,9 +1,21 @@
 ﻿  Graph.cpp
-C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(207,20): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(212,20): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [
               _Rep=__int64
           ]
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(230,14): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(231,11): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(232,11): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(255,12): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(256,12): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(304,8): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(305,8): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(306,8): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(319,14): error C3861: 'stoi': identifier not found
+C:\Users\Roi\Desktop\projects\Algorithms\Algorithms-Project1\Algorithms-Project1\Algorithms-Project1\Graph.cpp(320,14): error C3861: 'stoi': identifier not found
   Main.cpp
+  NeighborList.cpp
+  Node.cpp
+  Queue.cpp
   Generating Code...
-  Algorithms-Project1.vcxproj -> C:\Users\rotan\Documents\GitHub\ProjectNum2\Algorithms-Project1\Algorithms-Project1\Debug\Algorithms-Project1.exe
