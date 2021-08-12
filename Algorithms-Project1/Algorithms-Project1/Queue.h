@@ -1,6 +1,8 @@
 #pragma once
 #include "Node.h"
 
+/*Implementation of data structure Queue for the BFS algorithm*/
+
 class Queue
 {
 private:

@@ -2,26 +2,25 @@
 #include "NeighborList.h"
 #include "Node.h"
 
-#include <chrono>
-#include <iomanip>
-#include <iostream>
 #include <stdlib.h>
 #include <fstream>
 
 using namespace std;
 
-Graph* shortestPathsGraph(Graph* g, int s, int t);
-bool   checkEdgesInput(string strU, string strV, int size);
-bool   checkStartingInput(string size, string source, string destination);
-void   tellTime(Graph* g, int s, int t);
+bool  checkEdgesInput(string strJ, string strI, int size);
+bool  checkStartingInput(string size, string s, string t);
 
 int main()
 {
-	int n;				 // number of vertices
-	int s;				// starting vertex
-	int t;				// destination
-	int v = 0, u = 0;	// edges of the graph
-	int check = 0;
+
+	ifstream readMyFile; // text file to read from
+	string fileName;	 
+
+	int n, s, t;
+	string strSize, strSource, strDestination;
+
+	string strI, strJ;	 // edges of the graph
+	int i = 0, j = 0;	
 	bool isValid = true;
 
 	Graph* g = new Graph();
@@ -43,62 +42,56 @@ int main()
 
 		while (isValid)
 		{
-			cin >> v;
-			cin >> u;
-			if (v == -1 || u == -1)
+			cin >> i;
+			cin >> j;
+			if (i == -1 || j == -1)
 			{
 				isValid = false;
 			}
 
 			else
 			{
-				check = g->AddEdge(v, u);
+				check = g->AddEdge(i, j);
 			}
 		}
 
-		Graph* h = shortestPathsGraph(g, s, t);
-		h->PrintGraph();*/
+		Graph* h = g->shortestPathsGraph(s, t);
+		h->PrintGraph();
+		h->PrintGraphIntoFile();*/
 
-		ifstream readMyFile;
-		ofstream writeMyFile;
+		cout << "Please enter the path of the file: ";
+		cin >> fileName;
+		cout << endl;
 
-		readMyFile.open("C:\\Users\\rotan\\Desktop\\test_data2.txt");
+		readMyFile.open(fileName);
 		if (!readMyFile)
 		{
-			cout << "invalid" << endl;
+			cout << "ERROR with opening the file" << endl;
 			exit(1);
 		}
 
 		/*Read first 3 items from the file */
 
-		int sizeOfAnArray = 0;
-		int source = 0;
-		int destination = 0;
-
-		string strSize, strSource, strDestination;
-	
 		readMyFile >> strSize >> strSource >> strDestination;
 
 		if (checkStartingInput(strSize, strSource, strDestination))
 		{
-			sizeOfAnArray = stoi(strSize);
-			source = stoi(strSource);
-			destination = stoi(strDestination);
+			n = stoi(strSize);
+			s = stoi(strSource);
+			t = stoi(strDestination);
 
-
-			g->MakeEmptyGraph(sizeOfAnArray);
+			g->MakeEmptyGraph(n);
 
 			while (!readMyFile.eof() && isValid)
 			{
 				/*Reading pair of vertices to create an edge*/
-				string strU, strV;
-				readMyFile >> strV >> strU;
+				readMyFile >> strI >> strJ;
 
-				if (checkEdgesInput(strV, strU, sizeOfAnArray))
+				if (checkEdgesInput(strI, strJ, n))
 				{
-					int v = stoi(strV);
-					int u = stoi(strU);
-					g->AddEdge(v, u);
+					int i = stoi(strI);
+					int j = stoi(strJ);
+					g->AddEdge(i, j);
 				}
 				else
 				{
@@ -108,14 +101,13 @@ int main()
 
 			if (isValid)
 			{
-				Graph* timeComplex = g;
-				/*timeComplex->setGraph(g->getGraph());*/
+				Graph* timeTaken = g;			//Graph to measure the time
 
-				Graph* H = shortestPathsGraph(g, source, destination);
+				Graph* H = g->shortestPathsGraph(s, t);
 				H->PrintGraph();
 				H->PrintGraphIntoFile();
 				
-				tellTime(timeComplex, source, destination);
+				timeTaken->tellTime(s, t);	    
 			}
 			else
 			{
@@ -136,35 +128,6 @@ int main()
 
 }
 
-Graph* shortestPathsGraph(Graph* g, int s, int t) {
-
-	int* gBFS = g->BFS(s);
-	g->deleteEdgesFromBFS(gBFS);
-	Graph* GST = g->Transpose();
-
-	int* GSTBFS = GST->BFS(t);
-	for (int i = 1; i < GST->getN() + 1; i++)
-	{
-		NeighborList* lst = GST->GetAdjList(i);
-		Node* node = lst->getHead();
-		while (node != nullptr)
-		{
-			if (GSTBFS[i] == INT_MAX)
-			{
-				Node* remove = node;
-				node = node->getNext();
-				lst->removeNeighbor(remove);
-			}
-			else
-			{
-				node = node->getNext();
-			}
-		}
-	}
-	return GST->Transpose();
-
-}
-
 
 bool checkEdgesInput(string strV1, string strV2, int size)
 {
@@ -182,6 +145,7 @@ bool checkEdgesInput(string strV1, string strV2, int size)
 			return true;
 		}
 	}
+	/*If stoi fails, we'll catch the exception*/
 	catch (exception&)
 	{
 		return false;
@@ -190,12 +154,13 @@ bool checkEdgesInput(string strV1, string strV2, int size)
 
 bool checkStartingInput(string strSize, string strSourse, string strDestination)
 {
-	try {
+	try
+	{
 		int size = stoi(strSize);
-		int source = stoi(strSourse);
-		int destination = stoi(strDestination);
+		int s = stoi(strSourse);
+		int t = stoi(strDestination);
 
-		if (size < 0 || size % 2 != 0 || source > size || source < 0 || destination > size || destination < 0)		
+		if (size < 0 || size % 2 != 0 || s > size || s < 0 || t > size || t < 0)		
 		{
 			return false;
 		}
@@ -212,21 +177,3 @@ bool checkStartingInput(string strSize, string strSourse, string strDestination)
 	}
 }
 
-void tellTime(Graph* g, int s, int t)
-{
-
-	auto start = chrono::high_resolution_clock::now();
-	// unsync the I/O of C and C++.
-	ios_base::sync_with_stdio(false);
-	shortestPathsGraph(g, s, t);// Here you put the name of the function you wish to measure
-	auto end = chrono::high_resolution_clock::now();
-	// Calculating total time taken by the program.
-	double time_taken =
-		chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-	time_taken *= 1e-9;
-	ofstream myfile("Measure.txt"); // The name of the file
-	myfile << "Time taken by function <shortestPathsGraph> is : " << fixed
-		<< time_taken << setprecision(9);
-	myfile << " sec" << endl;
-	myfile.close();
-}

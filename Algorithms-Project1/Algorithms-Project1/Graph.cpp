@@ -1,34 +1,34 @@
 #include "Graph.h"
-#include "NeighborList.h"
-#include "Node.h"
-#include "Queue.h"
-#include <iostream>
-#include <fstream>
-using namespace std;
 
-Graph::Graph() { this->n = 0; this->graph = nullptr;}
+Graph::Graph() { this->n = 0; this->adjList = nullptr;}
 
 Graph::~Graph() {
 	for (int i = 0; i < n+1; i++)
 	{
-		delete this->graph[i];
+		delete this->adjList[i];
 	}
-	delete[] this->graph;
+	delete[] this->adjList;
 }
 
 int Graph::getN() { return this->n; }
 
+int Graph::IsEmpty() { return (this->n == 0) ? 1 : 0; }
+
+NeighborList* Graph::GetAdjList(int u) { return this->adjList[u]; }
+
+NeighborList* Graph::Adj(int i) { return this->adjList[i]; }
+
 void Graph::MakeEmptyGraph(int n) {
-	this->graph = new NeighborList*[n+1];
+	this->adjList = new NeighborList*[n+1];
 	this->n = n;
 	for (int i = 0; i < n+1; i++)
 	{
-		this->graph[i] = new NeighborList();
+		this->adjList[i] = new NeighborList();
 	}
 }
 
 bool Graph::IsAdjacent(int u, int v) {
-	Node* head = this->graph[u]->getHead();
+	Node* head = this->adjList[u]->getHead();
 	while (head != nullptr)
 	{
 		if (head->getValue() == v) {
@@ -39,21 +39,20 @@ bool Graph::IsAdjacent(int u, int v) {
 	return false;
 }
 
-NeighborList* Graph::GetAdjList(int u) {return this->graph[u];}
 
 void Graph::RemoveEdge(int u, int v) {
-	Node* node = this->graph[u]->getHead();
+	Node* node = this->adjList[u]->getHead();
 	while (node->getValue() != v)
 	{
 		node = node->getNext();
 	}
 	if (node != nullptr)
 	{
-		this->graph[u]->removeNeighbor(node);
+		this->adjList[u]->removeNeighbor(node);
 	}
 }
 
-int Graph::IsEmpty() { return (this->n == 0) ? 1 : 0; }
+
 
 int Graph::AddEdge(int i, int j) {
 	if (i > this->n || i < 1 || j > this->n || j < 1)
@@ -65,18 +64,17 @@ int Graph::AddEdge(int i, int j) {
 	}
 
 	Node* node = new Node(j);
-	this->graph[i]->addNeighbor(node);
+	this->adjList[i]->addNeighbor(node);
 	return 1;
 }
 
-NeighborList* Graph::Adj(int i) { return this->graph[i]; }
 
 Graph* Graph::Transpose() {
 	Graph* transpose = new Graph();
 	transpose->MakeEmptyGraph(this->n);
 	for (int i = 1; i < this->n+1; i++)
 	{
-		Node* node = this->graph[i]->getHead();
+		Node* node = this->adjList[i]->getHead();
 		while (node != nullptr)
 		{
 			transpose->AddEdge(node->getValue(), i);
@@ -84,13 +82,12 @@ Graph* Graph::Transpose() {
 		}
 	}
 	return transpose;
-
 }
 
 void Graph::PrintGraph() {
 	for (int i = 1; i < n+1; i++)
 	{
-		Node* head = this->graph[i]->getHead();
+		Node* head = this->adjList[i]->getHead();
 		if (head != nullptr)
 		{
 			cout << i << ": ";
@@ -107,11 +104,11 @@ void Graph::PrintGraph() {
 
 void Graph::PrintGraphIntoFile()
 {
-	ofstream myfile("Output.txt");
+	ofstream myfile("Measure.txt");
 
 	for (int i = 1; i < n + 1; i++)
 	{
-		Node* head = this->graph[i]->getHead();
+		Node* head = this->adjList[i]->getHead();
 		if (head != nullptr)
 		{
 			myfile << i << ": ";
@@ -123,13 +120,13 @@ void Graph::PrintGraphIntoFile()
 			myfile << endl;
 		}
 	}
-
+	myfile << endl;
 }
 
 int* Graph::BFS(int s) {
 	int* arr = new int[this->n + 1];
 	for (int i = 1; i < this->n+1; i++){
-		arr[i] = INT_MAX;
+		arr[i] = INFINITE;
 	}
 	Queue* q = new Queue();
 	q->EnQueue(s);
@@ -137,10 +134,10 @@ int* Graph::BFS(int s) {
 
 	while (!q->IsEmpty()) {
 		int u = q->DeQueue();
-		Node* node = this->graph[u]->getHead();
+		Node* node = this->adjList[u]->getHead();
 		while (node != nullptr)
 		{
-			if (arr[node->getValue()] == INT_MAX) { //arr[v] = infinity
+			if (arr[node->getValue()] == INFINITE) { //arr[v] = infinity
 				arr[node->getValue()] = arr[u] + 1; 
 				q->EnQueue(node->getValue());
 			}
@@ -153,7 +150,7 @@ int* Graph::BFS(int s) {
 void Graph::deleteEdgesFromBFS(int* bfs) {
 	for (int i = 1; i < this->n + 1; i++)
 	{
-		NeighborList* lst = this->graph[i];
+		NeighborList* lst = this->adjList[i];
 		Node* node = lst->getHead();
 		while (node != nullptr)
 		{
@@ -168,6 +165,53 @@ void Graph::deleteEdgesFromBFS(int* bfs) {
 			}
 		}
 	}
+}
+
+Graph* Graph::shortestPathsGraph(int s, int t) {
+	
+	int* gBFS = this->BFS(s);
+	this->deleteEdgesFromBFS(gBFS);
+	Graph* GST = this->Transpose();
+
+	int* GSTBFS = GST->BFS(t);
+	for (int i = 1; i < GST->getN() + 1; i++)
+	{
+		NeighborList* lst = GST->GetAdjList(i);
+		Node* node = lst->getHead();
+		while (node != nullptr)
+		{
+			if (GSTBFS[i] == INFINITE)
+			{
+				Node* remove = node;
+				node = node->getNext();
+				lst->removeNeighbor(remove);
+			}
+			else
+			{
+				node = node->getNext();
+			}
+		}
+	}
+	return GST->Transpose();
+}
+
+void Graph::tellTime(int s, int t)
+{
+	auto start = chrono::high_resolution_clock::now();
+	// unsync the I/O of C and C++.
+	ios_base::sync_with_stdio(false);
+	this->shortestPathsGraph(s, t);
+	auto end = chrono::high_resolution_clock::now();
+
+	// Calculating total time taken by the program.
+	double time_taken =
+		chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+	time_taken *= 1e-9;
+	ofstream myfile("Measure.txt", ios_base::app); // The name of the file
+	myfile << "Time taken by function <shortestPathsGraph> is : " << fixed
+		<< time_taken << setprecision(9);
+	myfile << " sec" << endl;
+	myfile.close();
 }
 
 

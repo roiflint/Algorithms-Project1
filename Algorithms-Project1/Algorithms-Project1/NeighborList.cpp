@@ -1,6 +1,7 @@
 #include "NeighborList.h"
 
 NeighborList::NeighborList() { this->head = nullptr; this->tail = nullptr; }
+
 NeighborList::~NeighborList() {
 	while (head != nullptr){
 		Node* tmp = head;
@@ -8,6 +9,7 @@ NeighborList::~NeighborList() {
 		delete tmp;
 	}
 }
+
 void NeighborList::addNeighbor(Node* neighbor) {
 	if (this->head==nullptr){
 		this->head = neighbor;
@@ -18,6 +20,7 @@ void NeighborList::addNeighbor(Node* neighbor) {
 		this->tail = neighbor;
 	}
 }
+
 void NeighborList::removeNeighbor(Node* neighbor) {
 	Node* tmp = this->head;
 	if (this->head == this->tail && this->head == neighbor)

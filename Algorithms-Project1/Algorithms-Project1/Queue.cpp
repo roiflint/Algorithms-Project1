@@ -35,11 +35,6 @@ int Queue::IsEmpty()
 
 int Queue::Front(void)
 {
-	if (IsEmpty())
-	{
-		//Handle Error
-	}
-
 	return (head->getNext()->getValue());
 }
 
@@ -62,11 +57,7 @@ void Queue::EnQueue(int item)
 
 int Queue::DeQueue()
 {
-	if (IsEmpty())
-	{
-		// Handle Error
-	}
-
+	
 	Node* temp = this->head;
 	int item = temp->getValue();
 	this->head = temp->getNext();
@@ -78,10 +69,3 @@ int Queue::DeQueue()
 	delete temp;
 	return item;
 }
-
-
-
-
-
-
-

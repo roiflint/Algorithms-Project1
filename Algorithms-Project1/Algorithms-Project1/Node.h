@@ -1,5 +1,7 @@
 #pragma once
 
+/*Implementation of node class for the linked list*/
+
 class Node {
 private:
 	int value;
