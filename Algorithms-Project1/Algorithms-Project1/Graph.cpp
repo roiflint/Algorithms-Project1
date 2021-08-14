@@ -1,6 +1,11 @@
 #include "Graph.h"
 
-Graph::Graph() { this->n = 0; this->adjList = nullptr;}
+Graph::Graph() { 
+	this->n = 0; 
+	this->s = 0;
+	this->t = 0;
+	this->adjList = nullptr;
+}
 
 Graph::~Graph() {
 	for (int i = 0; i < n+1; i++)
@@ -12,9 +17,9 @@ Graph::~Graph() {
 
 void Graph::setS(int s) { this->s = s; }
 void Graph::setT(int t) { this->t = t; }
+
 int Graph::getS() { return this->s; }
 int Graph::getT() { return this->t; }
-
 int Graph::getN() { return this->n; }
 
 int Graph::IsEmpty() { return (this->n == 0) ? 1 : 0; }
@@ -131,7 +136,7 @@ void Graph::PrintGraphIntoFile()
 int* Graph::BFS(int s) {
 	int* arr = new int[this->n + 1];
 	for (int i = 1; i < this->n+1; i++){
-		arr[i] = INT_MAX;
+		arr[i] = INFINITE;
 	}
 	Queue* q = new Queue();
 	q->EnQueue(s);
@@ -142,7 +147,7 @@ int* Graph::BFS(int s) {
 		Node* node = this->adjList[u]->getHead();
 		while (node != nullptr)
 		{
-			if (arr[node->getValue()] == INT_MAX) { //arr[v] = infinity
+			if (arr[node->getValue()] == INFINITE) {
 				arr[node->getValue()] = arr[u] + 1; 
 				q->EnQueue(node->getValue());
 			}
@@ -174,18 +179,24 @@ void Graph::deleteEdgesFromBFS(int* bfs) {
 
 Graph* Graph::shortestPathsGraph(int s, int t) {
 	
-	int* gBFS = this->BFS(s);
-	this->deleteEdgesFromBFS(gBFS);
-	Graph* GST = this->Transpose();
+	int* gBFS = this->BFS(s);				// Run the BFS algortihm from vertice s in the original graph
+	this->deleteEdgesFromBFS(gBFS);			// Delete all of the edges (u,v) that the condition d[v] = d[u] + 1 doesn't apply to them
+	Graph* GST = this->Transpose();			// Transpose the graph after deletion of the edges
+	int* GSTBFS = GST->BFS(t);				// Run the BFS algorithm on the transposed graph 
+	deleteInaccessibleEdges(GST, GSTBFS);	
 
-	int* GSTBFS = GST->BFS(t);
+	return GST->Transpose();				// Return the graph H
+}
+
+void Graph::deleteInaccessibleEdges(Graph* GST, int* GSTBFS)
+{
 	for (int i = 1; i < GST->getN() + 1; i++)
 	{
 		NeighborList* lst = GST->GetAdjList(i);
 		Node* node = lst->getHead();
 		while (node != nullptr)
 		{
-			if (GSTBFS[i] == INT_MAX)
+			if (GSTBFS[i] == INFINITE)
 			{
 				Node* remove = node;
 				node = node->getNext();
@@ -197,7 +208,6 @@ Graph* Graph::shortestPathsGraph(int s, int t) {
 			}
 		}
 	}
-	return GST->Transpose();
 }
 
 void Graph::tellTime(int s, int t)
@@ -323,6 +333,7 @@ void Graph::ReadGraph()
 		else
 		{
 			cout << "invalid input" << endl;
+			exit(1);
 		}
 	}
 	catch (exception&)
@@ -331,5 +342,4 @@ void Graph::ReadGraph()
 		exit(1);
 	}
 }
-
 
